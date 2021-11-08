@@ -1,6 +1,9 @@
 const { Router } = require("express");
+const { check } = require("express-validator");
 const { getEvent, createEvent, updateEvent, deleteEvent } = require("../controllers/eventsController");
 const { validateJWT } = require("../middlewares/validate-jwt");
+const {validarCampos} = require('../middlewares/validar-campos');
+const { isDate } = require("../helpers/isDate");
 
 
 //Aca crearemos el CRUD
@@ -16,7 +19,15 @@ router.use( validateJWT );
 router.get('/', getEvent);
 
 // //Crear nuevo evento
-router.post('/new', createEvent)
+router.post(
+    '/new',
+    [
+        check('title', 'el titulo es obligatorrrio').not().isEmpty(),
+        check('start', 'la fecha de inicio debe ser obligatoria').custom( isDate ),
+        check('end', 'la fecha de finalizacion debe ser obligatoria').custom( isDate ),
+        validarCampos
+    ],
+    createEvent)
 
 // //Actualizar evento
 router.post('/:id', updateEvent)
