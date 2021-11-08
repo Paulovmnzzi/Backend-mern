@@ -1,30 +1,32 @@
-const {response} = require('express')
+const { response } = require('express');
+const { update } = require('../models/EventModel');
 const Events = require('../models/EventModel')
 
 
-const getEvent = async(req, res = response) => {
+const getEvent = async (req, res = response) => {
 
     const eventos = await Events.find()
-    .populate('user','name');
+        .populate('user', 'name');//acá le digo que quiero toda la información del user y acto seguido que solo el name
+
 
     res.status(200).json({
-        ok:true,
+        ok: true,
         eventos
     })
 }
 
-const createEvent = async(req, res = response) => {
+const createEvent = async (req, res = response) => {
 
     const evento = new Events(req.body)
 
     try {
-       
+
         evento.user = req.uid;
 
         const eventoGuardado = await evento.save()
 
         res.json({
-            ok:true,
+            ok: true,
             evento: eventoGuardado
         })
 
@@ -38,23 +40,62 @@ const createEvent = async(req, res = response) => {
 
 }
 
-const updateEvent = (req, res = response) => {
+const updateEvent = async(req, res = response) => {
 
-    res.status(200).json({
-        ok:true,
-        msg: 'evento actualizado'
-    })
+    const eventoId = req.params.id;
+    const uid = req.uid;
+
+    try {
+
+        const evento = await Events.findById( eventoId );
+
+        if(!evento) {
+            res.status(404).json({
+                ok: false,
+                msg: 'evento no existe por ese id'
+            })
+        }
+
+        if(evento.user.toString() !== uid){
+            res.status(401).json({
+                ok: false, 
+                msg: 'No tiene privilegio de editar este evento'
+            })
+        }
+
+        const updateEvent = {
+            ...req.body,
+            user: uid
+        }
+
+        const newEvent = await Events.findByIdAndUpdate(evento.id, updateEvent, {new: true});
+
+        res.status(201).json({
+            ok: true,
+            newEvent
+        })
+
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'hable con el admin o fijecé'
+        })
+    }
+
+
 }
 
 const deleteEvent = (req, res = response) => {
 
-    const {id} = req.params;
+    const { id } = req.params;
 
     res.status(200).json({
-        ok:true,
+        ok: true,
         msg: 'evento eliminado',
         id
-        
+
     })
 }
 
