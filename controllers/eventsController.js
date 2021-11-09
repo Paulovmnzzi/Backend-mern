@@ -87,16 +87,42 @@ const updateEvent = async(req, res = response) => {
 
 }
 
-const deleteEvent = (req, res = response) => {
+const deleteEvent = async(req, res = response) => {
 
-    const { id } = req.params;
+    const id  = req.params.id;
+    const uid = req.uid;
 
-    res.status(200).json({
-        ok: true,
-        msg: 'evento eliminado',
-        id
+    try {
+        
+        const evento = await Events.findById(id);
 
-    })
+        if(!evento) {
+           return res.status(400).json({
+               ok: false,
+               msg: 'No se ha encontrado el evento'
+           })
+        }
+
+        if(evento.user.toString() !== uid){
+            return res.status(401).json({
+                ok:false,
+                msg: 'EL usuario no está autorizado a eliminar este evento',
+            })
+        }
+
+        const deleteEvent = await Events.findByIdAndDelete(id);
+        return res.status(200).json({
+            ok: true,
+            msg: 'Evento eliminado exitosamente',
+            deleteEvent
+        })
+
+
+
+    } catch (error) {
+        console.log(error)
+    }
+
 }
 
 module.exports = {
