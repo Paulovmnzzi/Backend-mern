@@ -75,14 +75,16 @@ const loginUser = async(req, res = response) => {
         //generar JWT
         const token = await generarJWT( user.id, user.name );
 
-        res.status(200).json({
+        return res.status(200).json({
             ok: true,
             msg: `El usuario ${user.name} se ha logueado correctamente`,
             token,
+            uid: user.id,
+            name: user.name
         })
 
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             ok: false,
             msg: 'por favor hable con el administrador'
         })
@@ -106,7 +108,9 @@ const renewToken = async(req, res) => {
 
     res.json({
         ok: true,
-        token
+        token,
+        uid,
+        name
     })
 }
 

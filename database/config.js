@@ -6,7 +6,7 @@ const dbConnection = async() => {
 
         await mongoose.connect( process.env.DB_CNN );
 
-        console.log('db online')
+        console.log('base de datos online')
 
 
         
