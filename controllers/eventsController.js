@@ -43,7 +43,7 @@ const createEvent = async (req, res = response) => {
 const updateEvent = async(req, res = response) => {
 
     const eventoId = req.params.id;
-    const uid = req.uid;
+    const uid = req.uid; //recordar que esto viene del token nuestro, lo agregamos al req
 
     try {
 
