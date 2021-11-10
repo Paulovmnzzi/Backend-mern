@@ -58,7 +58,7 @@ const updateEvent = async(req, res = response) => {
         }
 
         if(evento.user.toString() !== uid){
-            res.status(401).json({
+            return res.status(401).json({
                 ok: false, 
                 msg: 'No tiene privilegio de editar este evento'
             })
@@ -71,7 +71,7 @@ const updateEvent = async(req, res = response) => {
 
         const newEvent = await Events.findByIdAndUpdate(evento.id, updateEvent, {new: true});
 
-        res.status(201).json({
+        return res.status(201).json({
             ok: true,
             newEvent
         })
@@ -90,7 +90,7 @@ const updateEvent = async(req, res = response) => {
 
 const deleteEvent = async(req, res = response) => {
 
-    const id  = req.params.id;
+    const id  = req.params._id;
     const uid = req.uid;
 
     try {
