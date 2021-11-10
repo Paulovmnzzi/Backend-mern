@@ -90,7 +90,7 @@ const updateEvent = async(req, res = response) => {
 
 const deleteEvent = async(req, res = response) => {
 
-    const id  = req.params._id;
+    const id  = req.params.id;
     const uid = req.uid;
 
     try {
