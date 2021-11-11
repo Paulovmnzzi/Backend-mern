@@ -16,6 +16,7 @@ app.use(cors());
 
 //Directorio publico
 app.use(express.static('public'));
+app.use('/login', express.static('public'));
 
 //Lecutra y parseo del body, es decir la información que se mandaría en un input o en el mismo body de postman, por ej
 app.use(express.json()); //middleware
