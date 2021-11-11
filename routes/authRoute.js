@@ -29,7 +29,7 @@ router.post(
 router.post(
     '/',
     [
-        check('email', 'El formato del email debe ser correcto y debe estar en minúsculas aweonao').isEmail().isLength({min: 6}).isLowercase(),
+        check('email', 'El formato del email debe ser correcto y debe estar en minúsculas aweonao').isEmail().isLength({min: 6}),
         check('password', 'La contrasñea debe poseer 6 caracteres al menos').isLength({min:6}),
         validarCampos
     ],

@@ -33,12 +33,13 @@ const createUser = async (req, res = response) => {
     
         res.status(201).json({
             ok: true,
-            msg: 'registro',
+            msg: 'registro exitoso',
             pass: user.password,
             token
         })
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({
             ok: false,
             msg: 'por favor hable con el administrador'
@@ -87,7 +88,7 @@ const loginUser = async(req, res = response) => {
         console.log(error)
         return res.status(500).json({
             ok: false,
-            msg: 'Error fatal, Aborte !! Aborte !! '
+            msg: 'Error fatal :('
         })
     }
 
