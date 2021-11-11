@@ -86,17 +86,17 @@ const loginUser = async(req, res = response) => {
     } catch (error) {
         return res.status(500).json({
             ok: false,
-            msg: 'por favor hable con el administrador'
+            msg: error
         })
     }
 
-    res.status(200).json({
-        ok: true,
-        msg: 'login',
-        email,
-        pass,
+    // res.status(200).json({
+    //     ok: true,
+    //     msg: 'login',
+    //     email,
+    //     pass,
         
-    })
+    // })
 }
 
 const renewToken = async(req, res) => {
