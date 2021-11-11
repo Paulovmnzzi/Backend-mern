@@ -86,7 +86,7 @@ const loginUser = async(req, res = response) => {
     } catch (error) {
         return res.status(500).json({
             ok: false,
-            msg: error.toString()
+            msg: 'error fatal, aborte !! aborte !! '
         })
     }
 
