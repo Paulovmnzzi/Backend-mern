@@ -10,7 +10,7 @@ const validarCampos = (req, res = response, next) => {
         console.log(errors.mapped())
         return res.status(400).json({
             ok: false,
-            errors: 'contraseña o mail incorrectos, revise bien por favor.'
+            msg: 'contraseña o mail incorrectos, revise bien por favor. Recuerde que la contraseña debe ser de por lo menos 6 caracteres'
         })
     }
 
